@@ -82,16 +82,32 @@ std::string cut_domain_name(std::string str) {
 	return result;
 }
 
-bool check_name_post_box(std::string checkAddress) {
-	return true;
-}
+bool check_address (std::string checkStr, std::string passedStr) {
+	if (checkStr[0] == '.' || checkStr[checkStr.length() - 1] == '.') {
+		return false;
+	}
+
+	for (int i = 0; i < checkStr.length(); i++) {
+		
+	}
+	}
 
 bool check_domain_name(std::string checkAddress) {
 	return true;
 }
 
 bool check_email (std::string checkAddress) {
-	return check_name_post_box (cut_name_post_box (checkAddress)) && check_domain_name (cut_domain_name (checkAddress)) ? true : false;
+	std::string namePostBox = cut_name_post_box(checkAddress);
+	std::string domainName = cut_domain_name(checkAddress);
+
+	if (namePostBox.length() < 1 || namePostBox.length() > 64 || domainName.length() < 1 || domainName.length() > 63) {
+		return false;
+	}
+
+	std::string passedSymbolNamePostBox = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.!#$%&'*+-/=?^_`{|}~";
+	std::string passedSymbolDomainName = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.";
+
+	return check_address (namePostBox, passedSymbolNamePostBox) && check_address(domainName, passedSymbolDomainName) ? true : false;
 }
 
 
