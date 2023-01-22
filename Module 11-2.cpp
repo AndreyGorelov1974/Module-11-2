@@ -50,31 +50,6 @@ i_like_underscore@but_its_not_allow_in _this_part.example.com (во второй
 #include <iostream>
 #include <string>
 
-std::string encrypt_caesar(std::string str, int offset) {
-	std::string result = "";
-	int codeLetter_A = 65;
-	int codeLetter_a = 97;
-	int alphabetLength = 26;
-
-	for (int i = 0; i < str.length(); i++) {
-		int numberSymbol = (int)str[i];
-		if (numberSymbol >= codeLetter_A && numberSymbol < (codeLetter_A + alphabetLength)) {
-			numberSymbol -= codeLetter_A;
-			numberSymbol = (numberSymbol + offset) % alphabetLength;
-			if (numberSymbol < 0) numberSymbol += alphabetLength;
-			numberSymbol += codeLetter_A;
-		}
-		if (numberSymbol >= codeLetter_a && numberSymbol < (codeLetter_a + alphabetLength)) {
-			numberSymbol -= codeLetter_a;
-			numberSymbol = (numberSymbol + offset) % alphabetLength;
-			if (numberSymbol < 0) numberSymbol += alphabetLength;
-			numberSymbol += codeLetter_a;
-		}
-		result += (char)numberSymbol;
-	}
-	return result;
-}
-
 std::string cut_name_post_box(std::string str) {
 	std::string result = "";
 	for (int i = 0; i < str.length(); i++) {
