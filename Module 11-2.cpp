@@ -133,10 +133,5 @@ int main() {
 		std::cin >> emailAddress;
 	}
 
-	if (check_email(emailAddress)) {
-		std::cout << std::endl << "Yes";
-	}
-	else {
-		std::cout << std::endl << "No";
-	}
+	std::cout << std::endl << (check_email(emailAddress) ? "Yes" : "No");
 }
