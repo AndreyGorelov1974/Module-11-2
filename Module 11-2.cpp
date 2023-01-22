@@ -75,39 +75,69 @@ std::string encrypt_caesar(std::string str, int offset) {
 	return result;
 }
 
-std::string decrypt_caesar(std::string str, int offset) {
-	return encrypt_caesar(str, -offset);
+std::string cut_name_post_box(std::string str) {
+	std::string result = "";
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] != '@') {
+			result += str[i];
+		}
+		else {
+			return result;
+		}		
+	}
+	return result = "";
+}
+
+std::string cut_domain_name(std::string str) {
+	std::string result = "";
+	int split = -1;
+	for (int i = 0; i < str.length(); i++) {
+		if (str[i] == '@') {
+			split = i + 1;
+		}
+	}
+
+	if (split == -1) {
+		return result;
+	}
+
+	for (int i = split; i < str.length(); i++) {
+		result += str[i];
+	}
+	return result;
+}
+
+bool check_name_post_box(std::string checkAddress) {
+	return true;
+}
+
+bool check_domain_name(std::string checkAddress) {
+	return true;
+}
+
+bool check_email (std::string checkAddress) {
+	return check_name_post_box (cut_name_post_box (checkAddress)) && check_domain_name (cut_domain_name (checkAddress)) ? true : false;
 }
 
 
 
 int main() {
-	std::string inputText;
-	std::cout << "Enter the text: ";
-	std::getline(std::cin, inputText);
+	std::string emailAddress;
+	std::cout << "Enter email address: ";
+	std::cin >> emailAddress;
 
-	int offsetSymbol;
-	std::cout << "Enter the character offset: ";
-	std::cin >> offsetSymbol;
-
-	int modeNumber;
-	std::cout << "Enter the mode number, 0 - encrypt, 1 - decrypt: ";
-	std::cin >> modeNumber;
-
-	while (modeNumber < 0 || modeNumber > 1) {
-		std::cout << "Enter correct mode number: ";
-		std::cin >> modeNumber;
+	while (emailAddress.length() > 128) {
+		std::cout << "The email address is too long, enter again: ";
+		std::cin >> emailAddress;
 	}
 
-
-	if (modeNumber == 0) {
-		std::cout << encrypt_caesar(inputText, offsetSymbol);
+	if (check_email(emailAddress)) {
+		std::cout << std::endl << "Yes";
 	}
 	else {
-		std::cout << decrypt_caesar(inputText, offsetSymbol);
-
+		std::cout << std::endl << "No";
 	}
 
-
+	std::cout << std::endl << cut_name_post_box(emailAddress) << std::endl << cut_domain_name(emailAddress);
 
 }
