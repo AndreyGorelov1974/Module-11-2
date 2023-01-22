@@ -139,7 +139,4 @@ int main() {
 	else {
 		std::cout << std::endl << "No";
 	}
-
-	std::cout << std::endl << cut_name_post_box(emailAddress) << std::endl << cut_domain_name(emailAddress);
-
 }
