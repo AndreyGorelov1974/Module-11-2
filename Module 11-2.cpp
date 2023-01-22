@@ -50,6 +50,7 @@ i_like_underscore@but_its_not_allow_in _this_part.example.com (во второй
 #include <iostream>
 #include <string>
 
+// функция вырезания части адреса до @, если @ нет возвращаем пустую строку
 std::string cut_name_post_box(std::string str) {
 	std::string result = "";
 	for (int i = 0; i < str.length(); i++) {
@@ -63,39 +64,49 @@ std::string cut_name_post_box(std::string str) {
 	return result = "";
 }
 
+// функция вырезания части адреса после @, если @ нет возвращаем пустую строку
 std::string cut_domain_name(std::string str) {
 	std::string result = "";
-	int split = -1;
+	bool find = false;
 	for (int i = 0; i < str.length(); i++) {
-		if (str[i] == '@') {
-			split = i + 1;
+		if (find) {
+			result += str[i];
 		}
-	}
-
-	if (split == -1) {
-		return result;
-	}
-
-	for (int i = split; i < str.length(); i++) {
-		result += str[i];
+		if (str[i] == '@') {
+			find = true;
+		}
 	}
 	return result;
 }
 
+// функция проверки корректности, на вход подаём проверяемую строку, и строку-словарь разрешённых символов
 bool check_address (std::string checkStr, std::string passedStr) {
-	if (checkStr[0] == '.' || checkStr[checkStr.length() - 1] == '.') {
+	int checkStrLength = checkStr.length();
+	int passedStrLength = passedStr.length();
+
+	if (checkStr[0] == '.' || checkStr[checkStrLength - 1] == '.') {
 		return false;
 	}
 
-	for (int i = 0; i < checkStr.length(); i++) {
-		
-	}
-	}
+	for (int i = 0; i < checkStrLength; i++) {
+		if (checkStr[i] == '.' && checkStr[i + 1] == '.' && i < (checkStrLength - 1)) {
+			return false;
+		}
 
-bool check_domain_name(std::string checkAddress) {
+		bool noFind = true;
+		for (int j = 0; j < passedStrLength && noFind; j++) {
+			if (checkStr[i] == passedStr[j]) {
+				noFind = false;
+			}
+		}
+		if (noFind) {
+			return false;
+		}
+	}
 	return true;
 }
 
+//функция проверки адреса почты
 bool check_email (std::string checkAddress) {
 	std::string namePostBox = cut_name_post_box(checkAddress);
 	std::string domainName = cut_domain_name(checkAddress);
@@ -103,7 +114,7 @@ bool check_email (std::string checkAddress) {
 	if (namePostBox.length() < 1 || namePostBox.length() > 64 || domainName.length() < 1 || domainName.length() > 63) {
 		return false;
 	}
-
+	//строки разрешённых символов
 	std::string passedSymbolNamePostBox = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.!#$%&'*+-/=?^_`{|}~";
 	std::string passedSymbolDomainName = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890-.";
 
