@@ -84,22 +84,18 @@ bool check_address (std::string checkStr, std::string passedStr) {
 	int checkStrLength = checkStr.length();
 	int passedStrLength = passedStr.length();
 
+	// проверяем две . в начале строки
 	if (checkStr[0] == '.' || checkStr[checkStrLength - 1] == '.') {
 		return false;
 	}
 
 	for (int i = 0; i < checkStrLength; i++) {
+		// проверка двух . до конца строки
 		if (checkStr[i] == '.' && checkStr[i + 1] == '.' && i < (checkStrLength - 1)) {
 			return false;
 		}
-
-		bool noFind = true;
-		for (int j = 0; j < passedStrLength && noFind; j++) {
-			if (checkStr[i] == passedStr[j]) {
-				noFind = false;
-			}
-		}
-		if (noFind) {
+		// проверка допустимых символов
+		if (passedStr.find(checkStr[i]) == std::string::npos) {
 			return false;
 		}
 	}
